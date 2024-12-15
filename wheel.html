@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>العجلة السحرية - فانسي لايف</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #9c42f5 0%, #8a35e8 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            direction: rtl;
+            padding: 20px;
+        }
+
+        .fancy-title {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
+            color: white;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px 30px;
+            border-radius: 20px;
+            z-index: 1000;
+        }
+
+        .container {
+            text-align: center;
+            color: white;
+            max-width: 500px;
+            width: 100%;
+        }
+
+        h1 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .wheel-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin: 20px auto;
+        }
+
+        .wheel {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            border-radius: 50%;
+            overflow: hidden;
+            transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99);
+            box-shadow: 0 0 30px rgba(0,0,0,0.3);
+            transform-origin: center;
+            background: #fff;
+        }
+
+        .wheel-section {
+            position: absolute;
+            width: 50%;
+            height: 50%;
+            transform-origin: 100% 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .wheel-section:hover {
+            transform: scale(1.05);
+        }
+
+        .pointer {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 40px;
+            background: #FFD700;
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+            z-index: 10;
+            filter: drop-shadow(0 3px 5px rgba(0,0,0,0.3));
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: linear-gradient(145deg, #ffffff, #f0f0f0);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 90%;
+            width: 400px;
+            position: relative;
+            animation: modalShow 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        @keyframes modalShow {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .modal h2 {
+            color: #8a35e8;
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+
+        .modal p {
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.6;
+            font-size: 18px;
+        }
+
+        .modal button {
+            background: linear-gradient(135deg, #9c42f5 0%, #8a35e8 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 25px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(138, 53, 232, 0.4);
+        }
+
+        .modal button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(138, 53, 232, 0.6);
+        }
+
+        .diamonds {
+            font-size: 32px;
+            color: #FFD700;
+            margin: 20px 0;
+            text-shadow: 0 0 20px rgba(255,215,0,0.5);
+            animation: shine 2s infinite;
+        }
+
+        @keyframes shine {
+            0% { opacity: 0.8; }
+            50% { opacity: 1; }
+            100% { opacity: 0.8; }
+        }
+
+        .spin-button {
+            background: linear-gradient(135deg, #00c853 0%, #009624 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 25px;
+            font-size: 20px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,200,83,0.4);
+            text-transform: uppercase;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .spin-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,200,83,0.6);
+        }
+
+        .spin-button:active {
+            transform: translateY(-1px);
+        }
+
+        .wheel-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 30px;
+            height: 30px;
+            background: #FFD700;
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(255,215,0,0.8);
+            z-index: 2;
+        }
+    </style>
+</head>
+<body>
+    <div class="fancy-title">فانسي لايف</div>
+    <div class="container">
+        <h1>العجلة السحرية 🎮</h1>
+        <div class="diamonds">💎 اربح 250,000 ماسة 💎</div>
+        <div class="wheel-container">
+            <div class="pointer"></div>
+            <div class="wheel" id="wheel"></div>
+            <div class="wheel-center"></div>
+        </div>
+        <button class="spin-button" onclick="spinWheel()">تدوير العجلة</button>
+    </div>
+
+    <div class="modal" id="winModal">
+        <div class="modal-content">
+            <h2>🎉 مبروك! 🎉</h2>
+            <p>لقد ربحت 250,000 ماسة!</p>
+            <p>للحصول على جائزتك، يرجى تسجيل الدخول</p>
+            <button onclick="goToLogin()">تسجيل الدخول</button>
+        </div>
+    </div>
+
+    <script>
+        const wheel = document.getElementById('wheel');
+        const winningNumbers = [2, 3, 4, 6, 7, 8, 9];
+        let currentRotation = 0;
+        const colors = [
+            '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', 
+            '#FFEEAD', '#D4A5A5', '#9B59B6', '#3498DB',
+            '#FF9F43', '#26de81'
+        ];
+
+        // إنشاء أقسام العجلة
+        for (let i = 0; i < 10; i++) {
+            const section = document.createElement('div');
+            section.className = 'wheel-section';
+            section.textContent = i + 1;
+            section.style.transform = `rotate(${i * 36}deg)`;
+            section.style.background = colors[i];
+            
+            // حساب النسبة المئوية للموقع
+            const percentage = (i * 36) / 360 * 100;
+            section.style.background = `linear-gradient(${i * 36}deg, ${colors[i]} 0%, ${colors[i]} 100%)`;
+            
+            section.onclick = () => checkNumber(i + 1);
+            wheel.appendChild(section);
+        }
+
+        let isSpinning = false;
+
+        function spinWheel() {
+            if (isSpinning) return;
+            
+            isSpinning = true;
+            const spins = 5 + Math.random() * 5;
+            const degrees = spins * 360 + Math.floor(Math.random() * 360);
+            currentRotation += degrees;
+            
+            wheel.style.transform = `rotate(${currentRotation}deg)`;
+            
+            setTimeout(() => {
+                isSpinning = false;
+                // حساب الرقم الذي توقفت عنده العجلة
+                const finalRotation = currentRotation % 360;
+                const sectionNumber = Math.floor((360 - finalRotation) / 36) + 1;
+                if (winningNumbers.includes(sectionNumber)) {
+                    setTimeout(() => {
+                        document.getElementById('winModal').style.display = 'flex';
+                    }, 500);
+                }
+            }, 4000);
+        }
+
+        function checkNumber(number) {
+            if (isSpinning) return;
+            
+            if (winningNumbers.includes(number)) {
+                document.getElementById('winModal').style.display = 'flex';
+            }
+        }
+
+        function goToLogin() {
+            window.location.href = 'fancy_login.html';
+        }
+    </script>
+</body>
+</html>
